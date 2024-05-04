@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm/relations";
-import { createTable } from ".";
+import { createTable } from "../index";
 import { serial, timestamp, varchar } from "drizzle-orm/pg-core";
 import { userPreferences } from "./user_preferences";
 
