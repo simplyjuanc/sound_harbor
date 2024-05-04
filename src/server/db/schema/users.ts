@@ -5,7 +5,7 @@ import { userPreferences } from "./user_preferences";
 
 
 
-const users = createTable(
+export const users = createTable(
   "users",
   {
     id: serial('id').primaryKey().notNull(),
@@ -20,5 +20,3 @@ const users = createTable(
 export const userPreferencesRelations = relations(users, ({ many }) => ({
   userId: many(userPreferences,),
 }));
-export type User = typeof users.$inferSelect;
-export default users;
