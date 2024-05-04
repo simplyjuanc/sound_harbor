@@ -24,7 +24,7 @@ export default function RootLayout({
       <body className={`font-sans ${inter.variable}`}>
         <div className="flex min-h-screen flex-col gap-4">
           <TopNav />
-          {children}
+          <main className="flex w-full grow flex-col px-4">{children}</main>
         </div>
       </body>
     </html>
