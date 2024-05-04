@@ -1,7 +1,7 @@
 import { relations } from "drizzle-orm/relations";
-import { createTable } from "../index";
+import { createTable } from "../createTable";
 import { serial, timestamp, varchar } from "drizzle-orm/pg-core";
-import { userPreferences } from "./user_preferences";
+import { userPreferences } from "./userPreferences";
 
 
 
@@ -17,6 +17,6 @@ export const users = createTable(
   },
 )
 
-export const userPreferencesRelations = relations(users, ({ many }) => ({
+export const userToUserPreferencesRelations = relations(users, ({ many }) => ({
   userId: many(userPreferences,),
 }));
