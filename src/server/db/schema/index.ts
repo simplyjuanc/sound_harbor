@@ -6,12 +6,11 @@ import * as users from "./users";
 import * as releases from "./releases";
 import * as masters from "./masters";
 
-
 export const schema = {
   ...artists,
   ...preferencesToArtists,
-  ...userPreferences,
   ...users,
+  ...userPreferences,
   ...tracks,
   ...releases,
   ...masters,

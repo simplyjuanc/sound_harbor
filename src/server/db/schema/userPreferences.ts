@@ -5,7 +5,7 @@ import { relations } from "drizzle-orm/relations";
 import { preferencesToArtists } from "./preferencesToArtists";
 
 
-const UserPreferencesEnum = pgEnum('type', ['artist', 'release', 'track']);
+export const UserPreferencesEnum = pgEnum('type', ['artist', 'release', 'track']);
 
 
 export const userPreferences = createTable(

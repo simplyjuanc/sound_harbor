@@ -1,9 +1,11 @@
 import { date, integer, pgEnum, serial, timestamp, varchar } from "drizzle-orm/pg-core";
-import { createTable, datePrecision } from "../createTable";
+import { createTable } from "../createTable";
+// import { datePrecision } from "./masters";
 import { artists } from "./artists";
 
 
 
+export const datePrecision = pgEnum('release_date_precision', ['year', 'month', 'day']);
 
 export const releases = createTable('releases', {
   id: serial('id').primaryKey().notNull(),

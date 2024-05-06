@@ -25,7 +25,7 @@ export const preferencesToArtists = createTable(
 
 
 
-export const userPreferencesToArtistRelations = relations(preferencesToArtists, ({ one }) => ({
+export const preferencesToArtistRelations = relations(preferencesToArtists, ({ one }) => ({
   preference: one(userPreferences, {
     fields: [preferencesToArtists.preferenceId],
     references: [userPreferences.id],

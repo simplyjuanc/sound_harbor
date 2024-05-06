@@ -1,4 +1,4 @@
-import { date, integer, serial, timestamp, varchar } from "drizzle-orm/pg-core";
+import { integer, serial, timestamp, varchar } from "drizzle-orm/pg-core";
 import { createTable } from "../createTable";
 import { masters } from "./masters";
 

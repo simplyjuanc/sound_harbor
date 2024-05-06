@@ -1,10 +1,4 @@
-import { pgEnum, pgTableCreator } from "drizzle-orm/pg-core";
-
-
-
-
-export const datePrecision = pgEnum('release_date_precision', ['year', 'month', 'day']);
-
+import { pgTableCreator } from "drizzle-orm/pg-core";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -12,7 +6,5 @@ export const datePrecision = pgEnum('release_date_precision', ['year', 'month', 
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
-
-
 export const createTable = pgTableCreator((name) => `sh_${name}`);
 
