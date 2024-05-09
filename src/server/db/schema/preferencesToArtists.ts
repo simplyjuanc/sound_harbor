@@ -1,4 +1,4 @@
-import { createTable } from "../createTable";
+import { createTable } from "../../utils/createTable";
 import { integer, primaryKey, timestamp } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm/relations";
 import { artists } from "./artists";
@@ -7,7 +7,7 @@ import { userPreferences } from "./userPreferences";
 
 
 export const preferencesToArtists = createTable(
-  'preferences_to_artists',
+  'user_preferences_to_artists',
   {
     preferenceId: integer('preference_id')
       .notNull()

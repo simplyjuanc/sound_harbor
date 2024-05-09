@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm/relations";
-import { createTable } from "../createTable";
+import { createTable } from "../../utils/createTable";
 import { preferencesToArtists } from "./preferencesToArtists";
 import { serial, text, timestamp, varchar } from "drizzle-orm/pg-core";
 

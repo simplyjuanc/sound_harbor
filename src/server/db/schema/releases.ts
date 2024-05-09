@@ -1,7 +1,7 @@
 import { date, integer, pgEnum, serial, timestamp, varchar } from "drizzle-orm/pg-core";
-import { createTable } from "../createTable";
-// import { datePrecision } from "./masters";
-import { artists } from "./artists";
+import { createTable } from "../../utils/createTable";
+import { relations } from "drizzle-orm/relations";
+import { masters } from "./masters";
 
 
 
@@ -14,12 +14,22 @@ export const releases = createTable('releases', {
   updatedAt: timestamp('updated_at').notNull().$onUpdate(() => new Date()),
   releaseDate: date('release_date'),
   releaseDatePrecision: datePrecision('release_date_precision'),
+  masterId: integer('master_id').notNull(),
   total_tracks: integer('total_tracks').notNull(),
   total_duration: integer('total_duration').notNull(),
 });
 
 
 
-// const releasesRelations = relations(releases, ({ many }) => ({
-//   artists: many(artists),
-// }))
+export const releasesRelations = relations(releases, ({ one, many }) => ({
+  releasesToMaster: one(masters, {
+    fields: [releases.masterId],
+    references: [masters.id],
+  }),
+  // releasesToExternalIds: one(externalIds, {
+  //   fields: [releases.id],
+  //   references: [externalIds.id],
+  // }),
+  // releasesToFormats: many(formats),
+  // releasesToItems: many(items),
+}));
