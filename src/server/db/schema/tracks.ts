@@ -2,8 +2,9 @@ import { integer, serial, timestamp, varchar } from "drizzle-orm/pg-core";
 import { createTable } from "../../utils/createTable";
 import { masters } from "./masters";
 import { relations } from "drizzle-orm/relations";
-import { artists } from "./artists";
 import { preferencesToTracks } from "./userPreferencesToTracks";
+import { externalIdentifiers } from "./externalIdentifiers";
+import { artistsToTracks } from "./artistsToTracks";
 
 export const tracks = createTable('tracks', {
   id: serial('id').primaryKey().notNull(),
@@ -14,13 +15,13 @@ export const tracks = createTable('tracks', {
   trackNumber: integer('track_number'),
   discNumber: integer('disc_number'),
   albumId: integer('album_id').references(() => masters.id),
+  externalIdentifiers: serial('external_identifiers').references(() => externalIdentifiers.id)
 });
 
 export const tracksRelations = relations(tracks, ({ one, many }) => ({
-  // tracksToExternalIds: one(externalIds),
   tracksToMasters: many(masters),
-  tracksToArtists: many(artists),
-  tracksToUserPreferences: one(preferencesToTracks, {
+  artistsToTracks: many(artistsToTracks), // TODO change to many-to-many
+  tracksToUserPreferences: one(preferencesToTracks, { // TODO change to many-to-many
     fields: [tracks.id],
     references: [preferencesToTracks.trackId],
   }),

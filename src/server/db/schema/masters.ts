@@ -1,13 +1,13 @@
 import { date, integer, pgEnum, serial, timestamp, varchar } from "drizzle-orm/pg-core";
 import { createTable } from "../../utils/createTable";
-// import { datePrecision } from "./masters";
 import { releases } from "./releases";
 import { relations } from "drizzle-orm/relations";
 import { tracks } from "./tracks";
 import { artistsToMasters } from "./artistsToMasters";
+import {externalIdentifiers} from "~/server/db/schema/externalIdentifiers";
 
 
-export const datePrecision = pgEnum('release_date_precision', ['year', 'month', 'day']);
+export const DatePrecisionEnum = pgEnum('release_date_precision', ['year', 'month', 'day']);
 
 export const masters = createTable('masters', {
   id: serial('id').primaryKey().notNull(),
@@ -15,10 +15,11 @@ export const masters = createTable('masters', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().$onUpdate(() => new Date()),
   releaseDate: date('release_date'),
-  releaseDatePrecision: datePrecision('release_date_precision'),
+  releaseDatePrecision: DatePrecisionEnum('release_date_precision'),
   total_tracks: integer('total_tracks').notNull(),
   total_duration: integer('total_duration').notNull(),
   mainReleaseId: integer('main_release_id').references(() => releases.id),
+  externalIdentifiers: serial('external_identifiers').references(() => externalIdentifiers.id)
 });
 
 
