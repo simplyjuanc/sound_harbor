@@ -1,5 +1,11 @@
 import { serial, timestamp, varchar } from "drizzle-orm/pg-core";
 import { createTable } from "../../utils/createTable";
+import {relations} from "drizzle-orm/relations";
+import {artists} from "~/server/db/schema/artists";
+import {items} from "~/server/db/schema/items";
+import {masters} from "~/server/db/schema/masters";
+import {releases} from "~/server/db/schema/releases";
+import {tracks} from "~/server/db/schema/tracks";
 
 
 export const externalIdentifiers = createTable('external_identifiers', {
@@ -13,3 +19,12 @@ export const externalIdentifiers = createTable('external_identifiers', {
   upc: varchar('upc', { length: 256 }),
 });
 
+
+export const externalIdentifiersRelations = relations(externalIdentifiers, ({ one }) => ({
+  artist: one(artists),
+  items: one(items),
+  masters: one(masters),
+  releases: one(releases),
+  tracks: one(tracks),
+
+}));

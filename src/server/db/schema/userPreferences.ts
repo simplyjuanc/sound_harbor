@@ -2,7 +2,7 @@ import { createTable } from "../../utils/createTable";
 import { integer, pgEnum, serial, timestamp } from "drizzle-orm/pg-core";
 import { users } from "./users";
 import { relations } from "drizzle-orm/relations";
-import { preferencesToArtists } from "./preferencesToArtists";
+import { userPreferencesToArtists } from "./userPreferencesToArtists";
 import { releases } from "./releases";
 import { tracks } from "./tracks";
 
@@ -24,7 +24,7 @@ export const userPreferences = createTable(
 
 
 export const userPreferencesRelations = relations(userPreferences, ({ many }) => ({
-  preferencesToArtists: many(preferencesToArtists),
+  preferencesToArtists: many(userPreferencesToArtists),
   preferencesToReleases: many(releases),
   preferencesToTracks: many(tracks),
 }));

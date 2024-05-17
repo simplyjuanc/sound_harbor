@@ -6,7 +6,7 @@ import { userPreferences } from "./userPreferences";
 
 
 
-export const preferencesToArtists = createTable(
+export const userPreferencesToArtists = createTable(
   'user_preferences_to_artists',
   {
     preferenceId: integer('preference_id')
@@ -25,13 +25,13 @@ export const preferencesToArtists = createTable(
 
 
 
-export const preferencesToArtistRelations = relations(preferencesToArtists, ({ one }) => ({
+export const preferencesToArtistRelations = relations(userPreferencesToArtists, ({ one }) => ({
   preference: one(userPreferences, {
-    fields: [preferencesToArtists.preferenceId],
+    fields: [userPreferencesToArtists.preferenceId],
     references: [userPreferences.id],
   }),
   user: one(artists, {
-    fields: [preferencesToArtists.artistId],
+    fields: [userPreferencesToArtists.artistId],
     references: [artists.id],
   }),
 }));

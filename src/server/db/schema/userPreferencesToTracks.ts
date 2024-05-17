@@ -7,7 +7,7 @@ import { relations } from "drizzle-orm/relations";
 
 
 
-export const preferencesToTracks = createTable(
+export const userPreferencesToTracks = createTable(
   'user_preferences_to_tracks',
   {
     preferenceId: integer('preference_id')
@@ -23,13 +23,13 @@ export const preferencesToTracks = createTable(
 );
 
 
-export const userPreferencesToTracksRelations = relations(preferencesToTracks, ({ one }) => ({
+export const userPreferencesToTracksRelations = relations(userPreferencesToTracks, ({ one }) => ({
   preference: one(userPreferences, {
-    fields: [preferencesToTracks.preferenceId],
+    fields: [userPreferencesToTracks.preferenceId],
     references: [userPreferences.id],
   }),
   tracks: one(tracks, {
-    fields: [preferencesToTracks.trackId],
+    fields: [userPreferencesToTracks.trackId],
     references: [tracks.id],
   })
 }));

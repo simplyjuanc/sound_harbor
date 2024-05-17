@@ -20,7 +20,7 @@ export const items = createTable('items', {
   notes: text('notes'),
   releaseId: integer('release_id').notNull(),
   formatId: integer('format_id').notNull(),
-  externalIdentifiers: serial('external_identifiers').references(() => externalIdentifiers.id)
+  externalIdentifiers: integer('external_identifiers').references(() => externalIdentifiers.id)
 })
 
 

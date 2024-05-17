@@ -19,7 +19,7 @@ export const masters = createTable('masters', {
   total_tracks: integer('total_tracks').notNull(),
   total_duration: integer('total_duration').notNull(),
   mainReleaseId: integer('main_release_id').references(() => releases.id),
-  externalIdentifiers: serial('external_identifiers').references(() => externalIdentifiers.id)
+  externalIdentifiers: integer('external_identifiers').references(() => externalIdentifiers.id)
 });
 
 
