@@ -33,12 +33,12 @@ export const schema = {
 };
 
 
-export type ExternalIdentifiers = typeof externalIdentifiers.externalIdentifiers.$inferSelect;
-export type Users = typeof users.users.$inferSelect;
-export type UserPreferences = typeof userPreferences.userPreferences.$inferSelect;
-export type Artists = typeof artists.artists.$inferSelect;
-export type Tracks = typeof tracks.tracks.$inferSelect;
-export type Releases = typeof releases.releases.$inferSelect;
-export type Masters = typeof masters.masters.$inferSelect;
-export type Formats = typeof formats.formats.$inferSelect;
-export type Items = typeof items.items.$inferSelect;
+export type ExternalIdentifier = typeof externalIdentifiers.externalIdentifiers.$inferSelect;
+export type User = typeof users.users.$inferSelect;
+export type UserPreference = typeof userPreferences.userPreferences.$inferSelect;
+export type Artist = typeof artists.artists.$inferSelect;
+export type Track = typeof tracks.tracks.$inferSelect;
+export type Release = typeof releases.releases.$inferSelect;
+export type Master = typeof masters.masters.$inferSelect;
+export type Format = typeof formats.formats.$inferSelect;
+export type Item = typeof items.items.$inferSelect;
