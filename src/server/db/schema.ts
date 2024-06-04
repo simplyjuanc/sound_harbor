@@ -194,18 +194,12 @@ export const masters = createTable('masters', {
 
 
 export const mastersRelations = relations(masters, ({ one, many }) => ({
-    // mainRelease: one(releases, {
-    //     relationName: 'mainRelease',
-    //     fields: [masters.mainReleaseId],
-    //     references: [releases.id],
-    // }),
-    releases: many(releases,
-        // { relationName: 'releases'}
-    ),
-    artists: one(artistsToMasters, {
-        fields: [masters.id],
-        references: [artistsToMasters.masterId],
-    }),
+    releases: many(releases),
+    artists: one(artistsToMasters,
+        {
+            fields: [masters.id],
+            references: [artistsToMasters.masterId],
+        }),
     tracklist: many(tracks, { relationName: "tracklist"}),
 }));
 
@@ -229,17 +223,13 @@ export const releases = createTable('releases', {
 
 
 export const releasesRelations = relations(releases, ({ one, many }) => ({
-    master: one(masters, {
-        fields: [releases.masterId],
-        references: [masters.id],
-    }),
+    master: one(masters,
+        {
+            fields: [releases.masterId],
+            references: [masters.id],
+        }),
     items: many(items),
     formats: many(releasesToFormats),
-
-    // releasesToExternalIds: one(externalIds, {
-    //   fields: [releases.id],
-    //   references: [externalIds.id],
-    // }),
 }));
 
 
@@ -312,8 +302,8 @@ export const userPreferences = createTable(
 
 export const userPreferencesRelations = relations(userPreferences, ({ many }) => ({
     preferencesToArtists: many(userPreferencesToArtists),
-    preferencesToReleases: many(releases),
-    preferencesToTracks: many(tracks),
+    preferencesToMasters: many(userPreferencesToMasters),
+    preferencesToTracks: many(userPreferencesToTracks),
 }));
 
 
@@ -337,7 +327,7 @@ export const userPreferencesToArtists = createTable(
 
 
 
-export const preferencesToArtistRelations = relations(userPreferencesToArtists, ({ one }) => ({
+export const userPreferencesToArtistRelations = relations(userPreferencesToArtists, ({ one }) => ({
     preference: one(userPreferences, {
         fields: [userPreferencesToArtists.preferenceId],
         references: [userPreferences.id],
@@ -348,6 +338,36 @@ export const preferencesToArtistRelations = relations(userPreferencesToArtists, 
     }),
 }));
 
+
+export const userPreferencesToMasters = createTable(
+    "user_preferences_to_masters",
+    {
+        preferenceId: integer('preference_id')
+            .notNull()
+            .references(() => userPreferences.id),
+        masterId: integer('master_id')
+            .notNull()
+            .references(() => masters.id),
+        createdAt: timestamp('created_at').notNull().defaultNow(),
+        updatedAt: timestamp('updated_at').notNull().$onUpdate(() => new Date()),
+    },
+    (t) => ({ pk: primaryKey({ columns: [t.preferenceId, t.masterId] }) })
+);
+
+
+export const userPreferencesToMastersRelations = relations(userPreferencesToMasters, ({ one }) => ({
+        preference: one(userPreferences,
+            {
+                fields: [userPreferencesToMasters.preferenceId],
+                references: [userPreferences.id],
+            }),
+        masters: one(masters,
+            {
+                fields: [userPreferencesToMasters.masterId],
+                references: [masters.id],
+            })
+    }
+));
 
 
 export const userPreferencesToTracks = createTable(
@@ -362,7 +382,9 @@ export const userPreferencesToTracks = createTable(
         createdAt: timestamp('created_at').notNull().defaultNow(),
         updatedAt: timestamp('updated_at').notNull().$onUpdate(() => new Date()),
     },
-    (t) => ({ pk: primaryKey({ columns: [t.preferenceId, t.trackId] }) })
+    (t) => ({
+        pk: primaryKey({ columns: [t.preferenceId, t.trackId] })
+    })
 );
 
 
