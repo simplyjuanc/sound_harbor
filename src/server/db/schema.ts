@@ -293,14 +293,18 @@ export const userPreferences = createTable(
         id: serial('id').primaryKey().notNull(),
         type: UserPreferencesEnum('type'),
         rank: integer('rank').notNull(),
-        userId: integer('user_id').notNull().references(() => users.id),
+        userId: integer('user_id').notNull(),
         createdAt: timestamp('created_at').notNull().defaultNow(),
         updatedAt: timestamp('updated_at').notNull().$onUpdate(() => new Date()),
     },
 )
 
 
-export const userPreferencesRelations = relations(userPreferences, ({ many }) => ({
+export const userPreferencesRelations = relations(userPreferences, ({ one, many }) => ({
+    user: one(users, {
+        fields: [userPreferences.userId],
+        references: [users.id],
+    }),
     preferencesToArtists: many(userPreferencesToArtists),
     preferencesToMasters: many(userPreferencesToMasters),
     preferencesToTracks: many(userPreferencesToTracks),
@@ -412,7 +416,7 @@ export const users = createTable(
     },
 )
 
-export const userToUserPreferencesRelations = relations(users, ({ many }) => ({
-    userId: many(userPreferences,),
+export const userRelations = relations(users, ({ many }) => ({
+    userPreferences: many(userPreferences),
 }));
 
