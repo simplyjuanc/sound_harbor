@@ -1,7 +1,8 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
-import { type WebhookEvent } from '@clerk/nextjs/server'
-import {env} from "~/env";
+import { type UserJSON, type WebhookEvent } from '@clerk/nextjs/server'
+import { env } from "~/env";
+import { createUser } from "~/server/services/users";
 
 enum EventType {
     UserCreated = "user.created",
@@ -15,57 +16,59 @@ export async function POST(req: Request) {
         throw new Error('Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local')
     }
 
+    let evt: WebhookEvent
+    try {
+        evt = await verifyClerkWebhook(req, WEBHOOK_SECRET)
+    } catch (e) {
+        console.info('Error verifying webhook', e)
+        return new Response(
+            e.message,
+            { status: 400 }
+        )
+    }
+
+    const { id, email_addresses   } = evt.data as UserJSON;
+    if (evt.type !== EventType.UserCreated) {
+        return new Response(
+            'Expected UserCreated event',
+            { status: 500 }
+        )
+    }
+
+    const user = await createUser(
+        id,
+        email_addresses[0]?.email_address ?? ""
+    )
+
+    console.log(`Webhook with and ID of ${id} and type of ${evt.type}`)
+    return new Response(
+        JSON.stringify({ user }),
+        { status: 200 }
+    )
+
+}
+
+
+async function verifyClerkWebhook(req:Request, webhookSecret:string) {
     const header = headers();
     const svix_id = header.get("svix-id");
     const svix_timestamp = header.get("svix-timestamp");
     const svix_signature = header.get("svix-signature");
 
     if (!svix_id || !svix_timestamp || !svix_signature) {
-        return new Response('Error occurred -- no svix headers', {
-            status: 400
-        })
+        throw new Error('Error occurred -- no svix headers')
     }
 
     const body = JSON.stringify(await req.json());
-    const wh = new Webhook(WEBHOOK_SECRET);
-
-    let evt: WebhookEvent
+    const wh = new Webhook(webhookSecret);
 
     try {
-        evt = wh.verify(body, {
+        return wh.verify(body, {
             "svix-id": svix_id,
             "svix-timestamp": svix_timestamp,
             "svix-signature": svix_signature,
         }) as WebhookEvent
     } catch (err) {
-        console.error('Error verifying webhook:', err);
-        return new Response('Error occurred', {
-            status: 400
-        })
+        throw new Error(`Error verifying webhook` );
     }
-
-    const { id } = evt.data;
-    const eventType = evt.type;
-
-    switch (eventType) {
-        case EventType.UserCreated: {
-            console.log('User created:', id);
-            break;
-        }
-        case EventType.UserUpdated: {
-            console.log('User updated:', id);
-            break;
-        }
-        default: {
-            console.log('Webhook event:', eventType);
-            return new Response(
-                `Unrecognized event ${eventType}, expected 'user.created' or 'user.updated' events`,
-                { status: 500 })
-        }
-    }
-
-    console.log(`Webhook with and ID of ${id} and type of ${eventType}`)
-    console.log('Webhook body:', body)
-    return new Response('', { status: 200 })
-
 }
