@@ -1,14 +1,12 @@
-import {
-    type artists,
-    type externalIdentifiers,
-    type formats,
-    type items,
-    type masters,
-    type releases,
-    type tracks,
-    type userPreferences,
-    type users
-} from "~/server/db/schema";
+import {artists} from "~/server/db/tables/artists";
+import {items} from "~/server/db/tables/items";
+import {externalIdentifiers} from "~/server/db/tables/externalIdentifiers";
+import {formats} from "~/server/db/tables/formats";
+import {masters} from "~/server/db/tables/masters";
+import {releases} from "~/server/db/tables/releases";
+import {tracks} from "~/server/db/tables/tracks";
+import {userPreferences} from "~/server/db/tables/userPreferences";
+import {users} from "~/server/db/tables/userRelations";
 
 
 export type Artist = typeof artists.$inferSelect;
