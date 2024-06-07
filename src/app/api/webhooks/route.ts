@@ -19,10 +19,12 @@ export async function POST(req: Request) {
     let evt: WebhookEvent
     try {
         evt = await verifyClerkWebhook(req, WEBHOOK_SECRET)
-    } catch (e) {
-        console.info('Error verifying webhook', e)
+    } catch (error) {
+        console.info('Error verifying webhook', error)
         return new Response(
-            e.message,
+            (error instanceof Error) ?
+                error.message :
+                "Unknown error occurred verifying webhook",
             { status: 400 }
         )
     }
@@ -68,7 +70,7 @@ async function verifyClerkWebhook(req:Request, webhookSecret:string) {
             "svix-timestamp": svix_timestamp,
             "svix-signature": svix_signature,
         }) as WebhookEvent
-    } catch (err) {
+    } catch (error) {
         throw new Error(`Error verifying webhook` );
     }
 }
