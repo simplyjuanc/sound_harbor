@@ -1,12 +1,12 @@
-import {artists} from "~/server/db/tables/artists";
-import {items} from "~/server/db/tables/items";
-import {externalIdentifiers} from "~/server/db/tables/externalIdentifiers";
-import {formats} from "~/server/db/tables/formats";
-import {masters} from "~/server/db/tables/masters";
-import {releases} from "~/server/db/tables/releases";
-import {tracks} from "~/server/db/tables/tracks";
-import {userPreferences} from "~/server/db/tables/userPreferences";
-import {users} from "~/server/db/tables/userRelations";
+import {type artists} from "~/server/db/tables/artists";
+import {type items} from "~/server/db/tables/items";
+import {type externalIdentifiers} from "~/server/db/tables/externalIdentifiers";
+import {type formats} from "~/server/db/tables/formats";
+import {type masters} from "~/server/db/tables/masters";
+import {type releases} from "~/server/db/tables/releases";
+import {type tracks} from "~/server/db/tables/tracks";
+import {type userPreferences} from "~/server/db/tables/userPreferences";
+import {type users} from "~/server/db/tables/userRelations";
 
 
 export type Artist = typeof artists.$inferSelect;
