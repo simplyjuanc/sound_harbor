@@ -20,6 +20,9 @@ export const env = createEnv({
     SUPABASE_URL: z.string().url(),
     SUPABASE_SERVICE_ROLE_KEY: z.string(),
     SUPABASE_JWT_SECRET: z.string(),
+    NODE_TLS_REJECT_UNAUTHORIZED: z.string().optional(),
+    CLERK_SECRET_KEY: z.string(),
+    WEBHOOK_SECRET: z.string(),
   },
 
   /**
@@ -30,6 +33,8 @@ export const env = createEnv({
   client: {
     NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string(),
     NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
+    // NEXT_PUBLIC_CLIENTVAR: z.string(),
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string(),
   },
 
   /**
@@ -50,6 +55,11 @@ export const env = createEnv({
     SUPABASE_JWT_SECRET: process.env.SUPABASE_JWT_SECRET,
     NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    NODE_TLS_REJECT_UNAUTHORIZED: process.env.NODE_TLS_REJECT_UNAUTHORIZED,
+    // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+    CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
+    WEBHOOK_SECRET: process.env.WEBHOOK_SECRET,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

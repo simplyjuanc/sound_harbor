@@ -6,8 +6,8 @@ import * as masters from "~/server/db/tables/masters";
 import * as nmRelations from "~/server/db/tables/nmRelations";
 import * as releases from "~/server/db/tables/releases";
 import * as tracks from "~/server/db/tables/tracks";
+import * as users from "~/server/db/tables/users";
 import * as userPreferences from "~/server/db/tables/userPreferences";
-import * as userRelations from "~/server/db/tables/userRelations";
 
 
 
@@ -20,6 +20,6 @@ export const schema = {
   ...nmRelations,
   ...releases,
   ...tracks,
+  ...users,
   ...userPreferences,
-  ...userRelations,
 };
