@@ -14,6 +14,7 @@ export const users = createTable(
         updatedAt: timestamp('updated_at').notNull().$onUpdate(() => new Date())
     },
 )
+
 export const userRelations = relations(users, ({many}) => ({
     userPreferences: many(userPreferences),
 }));

@@ -3,7 +3,7 @@ import {integer, serial, timestamp} from "drizzle-orm/pg-core";
 import {UserPreferencesEnum} from "~/server/db/enums";
 import {relations} from "drizzle-orm/relations";
 import {userPreferencesToArtists, userPreferencesToMasters, userPreferencesToTracks} from "~/server/db/tables/nmRelations";
-import {users} from "~/server/db/tables/userRelations";
+import {users} from "~/server/db/tables/users";
 
 export const userPreferences = createTable(
     "user_preferences",

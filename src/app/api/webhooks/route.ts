@@ -2,11 +2,11 @@ import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { type UserJSON, type WebhookEvent } from '@clerk/nextjs/server'
 import { env } from "~/env";
-import { createUser } from "~/server/services/users";
+import { createUser } from "~/server/dal/users";
 
-enum EventType {
-    UserCreated = "user.created",
-    UserUpdated = "user.updated",
+enum UserEvent {
+    CREATED = "user.created",
+    UPDATED = "user.updated",
 }
 
 
@@ -30,24 +30,21 @@ export async function POST(req: Request) {
     }
 
     const { id, email_addresses   } = evt.data as UserJSON;
-    if (evt.type !== EventType.UserCreated) {
+    if (evt.type !== UserEvent.CREATED) {
         return new Response(
-            'Expected UserCreated event',
+            'Expected User.CREATED event',
             { status: 500 }
         )
     }
 
-    const user = await createUser(
-        id,
-        email_addresses[0]?.email_address ?? ""
-    )
+    const userEmail = email_addresses[0]?.email_address;
+    const user = await createUser(id, userEmail ?? "")
 
-    console.log(`Webhook with and ID of ${id} and type of ${evt.type}`)
+    console.log(`Processed webhook with and ID of ${id} and type of ${evt.type}`)
     return new Response(
         JSON.stringify({ user }),
-        { status: 200 }
+        { status: 201 }
     )
-
 }
 
 

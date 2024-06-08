@@ -5,8 +5,8 @@ import {type formats} from "~/server/db/tables/formats";
 import {type masters} from "~/server/db/tables/masters";
 import {type releases} from "~/server/db/tables/releases";
 import {type tracks} from "~/server/db/tables/tracks";
+import {type users} from "~/server/db/tables/users";
 import {type userPreferences} from "~/server/db/tables/userPreferences";
-import {type users} from "~/server/db/tables/userRelations";
 
 
 export type Artist = typeof artists.$inferSelect;
@@ -16,5 +16,5 @@ export type Format = typeof formats.$inferSelect;
 export type Master = typeof masters.$inferSelect;
 export type Release = typeof releases.$inferSelect;
 export type Track = typeof tracks.$inferSelect;
-export type UserPreference = typeof userPreferences.$inferSelect;
 export type User = typeof users.$inferSelect;
+export type UserPreference = typeof userPreferences.$inferSelect;
