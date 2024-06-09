@@ -1,7 +1,7 @@
 import {SignedIn, SignedOut } from "@clerk/nextjs";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import Conditional from "@/components/Conditional"
+import { Button } from "../components/ui/button";
+import Conditional from "../components/Conditional"
 
 export default function HomePage() {
     const isSignedInToSpotify = true;
@@ -24,7 +24,10 @@ export default function HomePage() {
                 <Conditional showWhen={!isSignedInToSpotify}><SpotifyLogin /></Conditional>
                 <Conditional showWhen={isSignedInToSpotify && !isSignedInToDiscogs}><DiscogsLogin /></Conditional>
                 {/*TODO: implement logic for redirecting */}
-                <Conditional showWhen={isFullySignedIn}><DiscogsLogin /></Conditional>
+                <Conditional showWhen={isFullySignedIn}>
+                    <SpotifyLogin/>
+                    <DiscogsLogin />
+                </Conditional>
             </SignedIn>
         </>
     );
