@@ -3,6 +3,7 @@ import { headers } from 'next/headers'
 import { type UserJSON, type WebhookEvent } from '@clerk/nextjs/server'
 import { env } from "~/env";
 import { createUser } from "~/server/dal/users";
+import {type NextRequest} from "next/server";
 
 enum UserEvent {
     CREATED = "user.created",
@@ -10,7 +11,7 @@ enum UserEvent {
 }
 
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
     const WEBHOOK_SECRET = env.WEBHOOK_SECRET
     if (!WEBHOOK_SECRET) {
         throw new Error('Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local')
