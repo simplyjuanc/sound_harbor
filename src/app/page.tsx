@@ -1,7 +1,7 @@
-import {SignedIn, SignedOut, useAuth} from "@clerk/nextjs";
-import {Button} from "~/components/ui/button";
+import {SignedIn, SignedOut } from "@clerk/nextjs";
 import Link from "next/link";
-import Conditional from "~/components/Conditional";
+import { Button } from "@/components/ui/button";
+import Conditional from "@/components/Conditional"
 
 export default function HomePage() {
     const isSignedInToSpotify = true;
