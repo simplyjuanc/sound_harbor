@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 import {SignedIn, SignedOut, SignInButton, UserButton} from "@clerk/nextjs";
 
-function TopNav() {
+function Header() {
   return (
     <header className="flex w-full items-center gap-4 border-b-2 border-b-white  p-4 text-xl font-semibold">
         <SignedOut>
@@ -19,4 +19,4 @@ function TopNav() {
   );
 }
 
-export default TopNav;
+export default Header;
