@@ -11,6 +11,9 @@ dependencies:
   '@radix-ui/react-slot':
     specifier: ^1.0.2
     version: 1.0.2(@types/react@18.3.1)(react@18.2.0)
+  '@spotify/web-api-ts-sdk':
+    specifier: ^1.2.0
+    version: 1.2.0
   '@t3-oss/env-nextjs':
     specifier: ^0.10.1
     version: 0.10.1(typescript@5.4.5)(zod@3.23.6)
@@ -846,6 +849,10 @@ packages:
   /@rushstack/eslint-patch@1.10.2:
     resolution: {integrity: sha512-hw437iINopmQuxWPSUEvqE56NCPsiU8N4AYtfHmJFckclktzK9YQJieD3XkDCDH4OjL+C7zgPUh73R/nrcHrqw==}
     dev: true
+
+  /@spotify/web-api-ts-sdk@1.2.0:
+    resolution: {integrity: sha512-JUaebva3Ohwo5I5tuTqyW/FKGOMbb40YevJMySAOINRxP7qQ/AMjBzfJx0zeO6yS+wAPfQSoGNsZaUggHw8vsA==}
+    dev: false
 
   /@stablelib/base64@1.0.1:
     resolution: {integrity: sha512-1bnPQqSxSuc3Ii6MhBysoWCg58j97aUjuCSZrGSmDxNqtytIi0k8utUenAwTZN4V5mXXYGsVUI9zeBqy+jBOSQ==}
