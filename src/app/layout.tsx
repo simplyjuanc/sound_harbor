@@ -1,7 +1,7 @@
 import "~/styles/globals.css";
 
 import { Inter } from "next/font/google";
-import TopNav from "./_components/TopNav";
+import Header from "../components/Header";
 import {ClerkProvider } from "@clerk/nextjs";
 
 const inter = Inter({
@@ -25,7 +25,7 @@ export default function RootLayout({
         <html lang="en" className="dark">
         <body className={`font-sans ${inter.variable}`}>
         <div className="flex min-h-screen flex-col gap-4">
-          <TopNav/>
+          <Header/>
           <main className="flex w-full grow flex-col px-4">{children}</main>
         </div>
         </body>
