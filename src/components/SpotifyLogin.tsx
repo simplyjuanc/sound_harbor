@@ -1,7 +1,8 @@
 import Link from "next/link";
 import {Button} from "~/components/ui/button";
 
-export function SpotifyLogin() {
+
+export async function SpotifyLogin() {
     return (
         <div className="flex flex-col mx-auto justify-center align-middle mt-16 text-center gap-8">
             <h1 className="my-8 font-semibold text-3xl">Welcome!</h1>
@@ -13,7 +14,7 @@ export function SpotifyLogin() {
                 </p>
             </div>
             {/*TODO: Add Spotify login link*/}
-            <Link href={"  TODO  "}><Button size={"lg"} className="mx-auto">Connect to Spotify</Button></Link>
+            <Link href={"/api/spotify/login"}><Button size={"lg"} className="mx-auto">Connect to Spotify</Button></Link>
         </div>
     );
 }
