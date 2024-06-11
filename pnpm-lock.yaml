@@ -11,9 +11,6 @@ dependencies:
   '@radix-ui/react-slot':
     specifier: ^1.0.2
     version: 1.0.2(@types/react@18.3.1)(react@18.2.0)
-  '@spotify/web-api-ts-sdk':
-    specifier: ^1.2.0
-    version: 1.2.0
   '@t3-oss/env-nextjs':
     specifier: ^0.10.1
     version: 0.10.1(typescript@5.4.5)(zod@3.23.6)
@@ -55,6 +52,9 @@ dependencies:
     version: 3.23.6
 
 devDependencies:
+  '@spotify/web-api-ts-sdk':
+    specifier: ^1.2.0
+    version: 1.2.0
   '@types/eslint':
     specifier: ^8.56.2
     version: 8.56.10
@@ -67,6 +67,9 @@ devDependencies:
   '@types/react-dom':
     specifier: ^18.2.19
     version: 18.3.0
+  '@types/spotify-api':
+    specifier: ^0.0.25
+    version: 0.0.25
   '@typescript-eslint/eslint-plugin':
     specifier: ^7.1.1
     version: 7.8.0(@typescript-eslint/parser@7.8.0)(eslint@8.57.0)(typescript@5.4.5)
@@ -852,7 +855,7 @@ packages:
 
   /@spotify/web-api-ts-sdk@1.2.0:
     resolution: {integrity: sha512-JUaebva3Ohwo5I5tuTqyW/FKGOMbb40YevJMySAOINRxP7qQ/AMjBzfJx0zeO6yS+wAPfQSoGNsZaUggHw8vsA==}
-    dev: false
+    dev: true
 
   /@stablelib/base64@1.0.1:
     resolution: {integrity: sha512-1bnPQqSxSuc3Ii6MhBysoWCg58j97aUjuCSZrGSmDxNqtytIi0k8utUenAwTZN4V5mXXYGsVUI9zeBqy+jBOSQ==}
@@ -938,6 +941,10 @@ packages:
 
   /@types/semver@7.5.8:
     resolution: {integrity: sha512-I8EUhyrgfLrcTkzV3TSsGyl1tSuPrEDzr0yd5m90UgNxQkyDXULk3b6MlQqTCpZpNtWe1K0hzclnZkTcLBe2UQ==}
+    dev: true
+
+  /@types/spotify-api@0.0.25:
+    resolution: {integrity: sha512-okhoy0U9fPWtwqCfbDyW8VxamhqvXE0gXIVeMOh5HcvEFQvWW2X0VsvdiX/OyiGQpZbZiOJXIGrbnIPfK0AIpA==}
     dev: true
 
   /@typescript-eslint/eslint-plugin@7.8.0(@typescript-eslint/parser@7.8.0)(eslint@8.57.0)(typescript@5.4.5):
