@@ -23,10 +23,6 @@ export const env = createEnv({
     NODE_TLS_REJECT_UNAUTHORIZED: z.string().optional(),
     CLERK_SECRET_KEY: z.string(),
     WEBHOOK_SECRET: z.string(),
-    SPOTIFY_CLIENT_ID: z.string(),
-    SPOTIFY_CLIENT_SECRET: z.string(),
-    SPOTIFY_REDIRECT_URL: z.string(),
-    SPOTIFY_SCOPES: z.string(),
   },
 
   /**
@@ -62,10 +58,6 @@ export const env = createEnv({
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
     CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
     WEBHOOK_SECRET: process.env.WEBHOOK_SECRET,
-    SPOTIFY_CLIENT_ID: process.env.SPOTIFY_CLIENT_ID,
-    SPOTIFY_CLIENT_SECRET: process.env.SPOTIFY_CLIENT_SECRET,
-    SPOTIFY_REDIRECT_URL: process.env.SPOTIFY_REDIRECT_URL,
-    SPOTIFY_SCOPES: process.env.SPOTIFY_SCOPES,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
