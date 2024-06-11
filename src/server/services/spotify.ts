@@ -2,6 +2,7 @@ import {env} from "~/env";
 import {redirect} from "next/navigation";
 import {stringify} from "node:querystring";
 import {addTimeInterval, generateRandomAlphanumString} from "~/lib/utils";
+import {auth, clerkClient} from "@clerk/nextjs/server";
 
 
 enum SpotifyResponse {
@@ -25,9 +26,9 @@ class SpotifyClient {
     private readonly scopes: string;
     private readonly redirectUrl: string;
 
-    readonly AUTH_BASE_URL =  'https://accounts.spotify.com';
-    readonly AUTH_URL =  this.AUTH_BASE_URL + '/authorize?';
-    readonly TOKEN_URL =  this.AUTH_URL + '/api/token?'
+    private readonly AUTH_BASE_URL =  'https://accounts.spotify.com';
+    private readonly AUTH_URL =  this.AUTH_BASE_URL + '/authorize?';
+    private readonly TOKEN_URL =  this.AUTH_URL + '/api/token?'
     private state: string | undefined;
 
     private accessToken: string | undefined;
@@ -47,6 +48,7 @@ class SpotifyClient {
     }
 
     initiateUserAuth() {
+        console.log("spotify auth start");
         this.state = generateRandomAlphanumString();
         const authRequestBody = {
             response_type: SpotifyResponse.CODE,
@@ -55,6 +57,11 @@ class SpotifyClient {
             scope: this.scopes,
             state: this.state,
         };
+        console.log({
+            authRequestBody,
+            redirectUrl : this.AUTH_URL +stringify(authRequestBody)
+        })
+
         redirect(
             this.AUTH_URL +
             stringify(authRequestBody)
@@ -102,3 +109,18 @@ const spotifyClient = new SpotifyClient({
 );
 
 export default spotifyClient;
+
+export async function getSpotifyAccessToken() {
+    const {userId} = auth();
+    if (!userId) throw new Error("User not found");
+
+    const provider = "oauth_spotify";
+    const clerkResponse = await clerkClient.users.getUserOauthAccessToken(
+        userId,
+        provider
+    );
+    const accessToken = clerkResponse.data[0]
+
+    if (!accessToken) throw new Error("No access token found.")
+    return accessToken
+}

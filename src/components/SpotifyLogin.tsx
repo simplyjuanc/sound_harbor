@@ -14,7 +14,7 @@ export async function SpotifyLogin() {
                 </p>
             </div>
             {/*TODO: Add Spotify login link*/}
-            <Link href={"/api/spotify/login"}><Button size={"lg"} className="mx-auto">Connect to Spotify</Button></Link>
+            <Link href={"/api/v1/spotify/preferences"}><Button size={"lg"} className="mx-auto">Connect to Spotify</Button></Link>
         </div>
     );
 }
