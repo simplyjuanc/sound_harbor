@@ -1,6 +1,5 @@
 import {auth, clerkClient} from "@clerk/nextjs/server";
 import type {Artist, MaxInt, Page, Track} from "@spotify/web-api-ts-sdk";
-import * as path from "node:path";
 
 
 const SPOTIFY_BASE_URL = "https://api.spotify.com/";
@@ -12,8 +11,14 @@ type getUserTopItems = <T extends "artists" | "tracks">(type: T,
                                                         limit?: MaxInt<50>,
                                                         offset?: number) => Promise<Page<T extends "artists" ? Artist : Track>>;
 
-
-async function getSpotifyAccessToken() {
+/**
+ * Retrieves the Spotify access token for the authenticated user.
+ * If the user is not authenticated or if there is no access token found, it throws an error.
+ *
+ * @returns {Promise<string>} A promise that resolves to the Spotify access token.
+ * @throws {Error} Will throw an error if the user is not authenticated or if no access token is found.
+ */
+export async function getSpotifyAccessToken() {
     const {userId} = auth();
     if (!userId) throw new Error("User not found");
 
@@ -22,9 +27,10 @@ async function getSpotifyAccessToken() {
         userId,
         provider
     );
-    const accessToken = clerkResponse.data[0]
 
+    const accessToken = clerkResponse.data[0]!
     if (!accessToken) throw new Error("No access token found.")
+
     return accessToken
 }
 
