@@ -21,7 +21,14 @@ const SPOTIFY_API_VERSION = "v1";
 export class SpotifyClient implements SpotifyClientAPI {
     getUserTopArtists = this.getUserTopItems<ResourceType.ARTISTS>(`me/top/artists`)
     getUserTopTracks = this.getUserTopItems<ResourceType.TRACKS>(`me/top/tracks`)
+    getArtistTopTracks = async (id:string): Promise<Page<Tracks>> => {
+        const accessToken = await this.getAccessToken()
+        const headers = this.generateHeader(accessToken)
 
+        const builtUrl = this.buildResourcePath(`artists/${id}/top-tracks`)
+        const response = await fetch(builtUrl, {headers});
+        return await response.json() as Page<Resource<Tracks>>;
+    }
     private getUserTopItems<T extends ResourceType>(url:string):GetUserTopItems<T> {
         let headers: ReturnType<typeof this.generateHeader>;
         this.getAccessToken()
