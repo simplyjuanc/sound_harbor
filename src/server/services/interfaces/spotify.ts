@@ -1,12 +1,13 @@
-import {
-    type Album,
-    type Albums,
-    type Artists,
-    type MaxInt,
-    type Page,
-    type Tracks
+import type {
+    Album,
+    Albums,
+    Artist,
+    Artists,
+    MaxInt,
+    Page,
+    Track,
+    Tracks
 } from "@spotify/web-api-ts-sdk";
-
 
 export enum ResourceType {
     ARTISTS = "artists",
@@ -17,8 +18,7 @@ export enum ResourceType {
 export type Resource<T> =
     T extends ResourceType.ARTISTS ? Artists :
     T extends ResourceType.TRACKS ? Tracks :
-    T extends ResourceType.ALBUMS ? Albums :
-    never;
+    Albums
 
 export interface ItemsRequest<T> {
     type: T;
@@ -31,10 +31,8 @@ export type GetUserTopItems<T extends ResourceType> = (request:ItemsRequest<Reso
 
 
 export interface SpotifyClientAPI {
-    getUserTopTracks: GetUserTopItems<ResourceType.TRACKS>
-    getUserTopArtists: GetUserTopItems<ResourceType.ARTISTS>
-    getArtistTopTracks: (id:string) => Promise<Page<Tracks>>;
-
-    searchAlbum:  (album: string, artist: string, accessToken: string) => Promise<Page<Album>>;
-    getUserRecommendations: () => Promise<Page<Albums>>;
+    getUserTopTracks: (request:ItemsRequest<ResourceType.TRACKS>) => Promise<Page<Track>>;
+    getUserTopArtists: (request:ItemsRequest<ResourceType.ARTISTS>) => Promise<Page<Artist>>;
+    getArtistTopAlbums: (id:string) => Promise<Page<Album>>;
+    // searchAlbum:  (album: string, artist: string, accessToken: string) => Promise<Page<Album>>;
 }

@@ -1,17 +1,22 @@
+import * as querystring from "node:querystring";
 import {
     auth,
     clerkClient,
     type OauthAccessToken
 } from "@clerk/nextjs/server";
-import {
-    type GetUserTopItems,
-    type Resource,
-    type ResourceType,
-    type SpotifyClientAPI,
-    type ItemsRequest,
-} from "~/server/services/interfaces/SpotifyClient";
-import type {Page, Tracks} from "@spotify/web-api-ts-sdk";
-import * as querystring from "node:querystring";
+import type {
+    Resource,
+    ResourceType,
+    SpotifyClientAPI,
+    ItemsRequest,
+} from "~/server/services/interfaces/spotify";
+import type {
+    Album,
+    Albums,
+    Artist,
+    Page,
+    Track
+} from "@spotify/web-api-ts-sdk";
 
 
 const SPOTIFY_BASE_URL = "https://api.spotify.com/";
@@ -19,31 +24,32 @@ const SPOTIFY_API_VERSION = "v1";
 
 
 export class SpotifyClient implements SpotifyClientAPI {
-    getUserTopArtists = this.getUserTopItems<ResourceType.ARTISTS>(`me/top/artists`)
-    getUserTopTracks = this.getUserTopItems<ResourceType.TRACKS>(`me/top/tracks`)
-    getArtistTopTracks = async (id:string): Promise<Page<Tracks>> => {
+    async getUserTopArtists (request: ItemsRequest<ResourceType.ARTISTS>) {
+        const accessToken = await this.getAccessToken()
+        const headers = this.generateHeader(accessToken)
+        const url = this.buildResourcePath(`me/top/artists`, request)
+        const response = await fetch(url, { headers })
+        return await response.json() as Page<Artist>;
+    }
+
+    async getUserTopTracks (request: ItemsRequest<ResourceType.TRACKS>) {
+        const accessToken = await this.getAccessToken()
+        const headers = this.generateHeader(accessToken)
+        const builtUrl = this.buildResourcePath(`me/top/tracks`, request)
+        const response = await fetch(builtUrl, { headers })
+        return await response.json() as Page<Track>;
+    }
+
+    async getArtistTopAlbums (id:string): Promise<Page<Album>> {
         const accessToken = await this.getAccessToken()
         const headers = this.generateHeader(accessToken)
 
         const builtUrl = this.buildResourcePath(`artists/${id}/top-tracks`)
-        const response = await fetch(builtUrl, {headers});
-        return await response.json() as Page<Resource<Tracks>>;
-    }
-    private getUserTopItems<T extends ResourceType>(url:string):GetUserTopItems<T> {
-        let headers: ReturnType<typeof this.generateHeader>;
-        this.getAccessToken()
-            .then(accessToken => headers = this.generateHeader(accessToken))
-            .catch(err => console.log(err));
-
-        return async (request:ItemsRequest<T>): Promise<Page<Resource<T>>> => {
-            const builtUrl = this.buildResourcePath(url, request)
-            const response = await fetch(builtUrl, {headers});
-
-            return await response.json() as Page<Resource<T>>;
-        };
+        const response = await fetch(builtUrl, { headers });
+        return await response.json() as Page<Album>;
     }
 
-    async getAccessToken() {
+    private async getAccessToken() {
         const {userId} = auth();
         if (!userId) throw new Error("User not found");
 
@@ -58,15 +64,15 @@ export class SpotifyClient implements SpotifyClientAPI {
         return accessToken
     }
 
-    buildResourcePath(path: string, query?: ItemsRequest<never>) {
-        const preppedQuery = query && this.prepareForQueryString(query);
+    private buildResourcePath(path: string, query?: ItemsRequest<unknown>) {
+        const preppedQuery = query && this.prepareQueryString(query);
         return new URL(
-            SPOTIFY_API_VERSION + path + (preppedQuery && "&" + querystring.stringify(preppedQuery)),
+            `${SPOTIFY_API_VERSION}/${path}` + (preppedQuery && "?" + querystring.stringify(preppedQuery)),
             SPOTIFY_BASE_URL
         )
     }
 
-    prepareForQueryString<T>(obj: T): Record<string, string> {
+    private prepareQueryString<T>(obj: T): Record<string, string> {
         const result: Record<string, string> = {};
         for (const key in obj) {
             if (Object.prototype.hasOwnProperty.call(obj, key)) {
@@ -77,7 +83,7 @@ export class SpotifyClient implements SpotifyClientAPI {
         return result;
     }
 
-    generateHeader (accessToken: OauthAccessToken) {
+    private generateHeader(accessToken: OauthAccessToken) {
         return {
             Authorization: 'Bearer ' + accessToken.token,
         };
